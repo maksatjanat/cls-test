@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Express.js</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <h2>Тестовое задание 1 (Палиндром)</h2>
+        <br>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Палиндром</div>
+            <div class="panel-body" id="palindrome_response">
+                <form action="http://localhost:3000/palindrome" method="POST">
+                    <div class="form-group">
+                        <label for="word">Введите слово:</label>
+                        <input type="text" class="form-control" id="palindrome_word">
+                    </div>
+                    <button id="palindrome_submit" type="submit" class="btn btn-default">Проверить</button>
+                </form>
+            </div>
+        </div>
+        <hr>
+        <h2>Тестовое задание 2 (Фибоначчи)</h2>
+        <br>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Фибоначчи</div>
+            <div class="panel-body" id="fibonachi_response">
+                <form action="http://localhost:3000/fibonachi" method="POST">
+                    <div class="form-group">
+                        <label for="word">Введите цифру:</label>
+                        <input type="text" class="form-control" id="fibonachi_word">
+                    </div>
+                    <button id="fibonachi_submit" type="submit" class="btn btn-default">Расчитать</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+  
+  <script>
+  $(document).ready(function(){
+    $("#palindrome_submit").click(function(e){
+        e.preventDefault();
+        var word = $('#palindrome_word').val();
+        $.ajax({
+            url: "http://localhost:3000/palindrome",
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify( {'word':word} ),
+            dataType: "json",
+            success: function(response){
+                if (response.data == true) {
+                    alert('Слово является палиндромом');
+                    console.log('Слово является палиндромом');
+                    $('#palindrome_response').html('<h3>Слово является палиндромом</h3>');
+                } else {
+                    alert('Слово не является палиндромом');
+                    console.log('Слово не является палиндромом');
+                    $('#palindrome_response').html('<h3>Слово не является палиндромом</h3>');
+                }
+            }
+        });   
+    });
+
+    $("#fibonachi_submit").click(function(e){
+        e.preventDefault();
+        var word = $('#fibonachi_word').val();
+        $.ajax({
+            url: "http://localhost:3000/fibonachi",
+            type: 'POST',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify( {'word':word} ),
+            dataType: "json",
+            success: function(response){
+                    alert(response.data);
+                    console.log(response.data);
+                    $('#fibonachi_response').html('<h3>' + response.data + '</h3>');
+                
+            }
+        });   
+    });
+});
+  </script>
+</body>
+</html>
